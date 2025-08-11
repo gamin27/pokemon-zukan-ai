@@ -1,4 +1,7 @@
-export default async function PokemonDetail({ params }) {
+import { Metadata } from "next";
+
+export default async function PokemonDetail(props: any) {
+  const { params } = props;
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.id}`);
   const pokemon = await res.json();
 
@@ -7,7 +10,9 @@ export default async function PokemonDetail({ params }) {
     `https://pokeapi.co/api/v2/pokemon-species/${params.id}`
   );
   const species = await speciesRes.json();
-  const jpNameObj = species.names.find((n) => n.language.name === "ja-Hrkt");
+  const jpNameObj = species.names.find(
+    (n: any) => n.language.name === "ja-Hrkt"
+  );
   const jpName = jpNameObj ? jpNameObj.name : pokemon.name;
 
   return (
@@ -26,13 +31,13 @@ export default async function PokemonDetail({ params }) {
       />
       <h2>タイプ</h2>
       <ul>
-        {pokemon.types.map((t, idx) => (
+        {pokemon.types.map((t: any, idx: number) => (
           <li key={idx}>{t.type.name}</li>
         ))}
       </ul>
       <h2>能力値</h2>
       <ul>
-        {pokemon.stats.map((stat, idx) => (
+        {pokemon.stats.map((stat: any, idx: number) => (
           <li key={idx}>
             {stat.stat.name}: {stat.base_stat}
           </li>
