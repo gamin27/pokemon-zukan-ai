@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 type Pokemon = {
   id: number;
   name: string;
+  jpName: string;
   image: string;
   types: string[];
 };
@@ -28,9 +29,18 @@ export default function Home() {
               `https://pokeapi.co/api/v2/pokemon/${index + 1}`
             );
             const detail = await detailRes.json();
+            // 日本語名取得
+            const speciesRes = await fetch(
+              `https://pokeapi.co/api/v2/pokemon-species/${index + 1}`
+            );
+            const species = await speciesRes.json();
+            const jpNameObj = species.names.find(
+              (n: any) => n.language.name === "ja-Hrkt"
+            );
             return {
               id: index + 1,
               name: pokemon.name,
+              jpName: jpNameObj ? jpNameObj.name : pokemon.name,
               image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
                 index + 1
               }.png`,
@@ -50,12 +60,25 @@ export default function Home() {
   // タイプ一覧を抽出
   const allTypes = Array.from(new Set(pokemons.flatMap((p) => p.types))).sort();
 
+  // カタカナ→ひらがな変換関数
+  function kataToHira(str: string) {
+    return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+      const chr = match.charCodeAt(0) - 0x60;
+      return String.fromCharCode(chr);
+    });
+  }
+
   // フィルター処理
-  const filtered = pokemons.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) &&
+  const filtered = pokemons.filter((p) => {
+    const searchLower = search.toLowerCase();
+    const jpNameHira = kataToHira(p.jpName);
+    return (
+      (p.name.toLowerCase().includes(searchLower) ||
+        p.jpName.includes(search) ||
+        jpNameHira.includes(search)) &&
       (selectedType === "" || p.types.includes(selectedType))
-  );
+    );
+  });
 
   // 英語→日本語タイプ変換テーブル
   const typeJa: { [key: string]: string } = {
@@ -153,7 +176,7 @@ export default function Home() {
                 height={96}
                 style={{ imageRendering: "pixelated", marginBottom: "8px" }}
               />
-              <p style={{ margin: 0 }}>{pokemon.name}</p>
+              <p style={{ margin: 0 }}>{pokemon.jpName}</p>
               <div>
                 {pokemon.types.map((type) => (
                   <span
