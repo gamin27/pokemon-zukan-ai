@@ -110,23 +110,45 @@ export default async function PokemonDetail(props: any) {
       >
         能力値
       </h2>
-      <ul style={{ paddingLeft: "16px" }}>
+      <ul style={{ paddingLeft: "0", listStyle: "none" }}>
         {pokemon.stats.map((stat: any, idx: number) => (
           <li
             key={idx}
             style={{
+              marginBottom: "8px",
               fontSize: "12px",
               color: "#222",
-              background: "#eef",
-              border: "1px solid #888",
-              borderRadius: "4px",
-              marginBottom: "4px",
-              display: "inline-block",
-              padding: "2px 8px",
-              boxShadow: "1px 1px 0 #888",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {stat.stat.name}: {stat.base_stat}
+            <span style={{ width: "80px", display: "inline-block" }}>
+              {stat.stat.name}
+            </span>
+            <div
+              style={{
+                height: "16px",
+                width: "160px",
+                background: "#ddd",
+                border: "1px solid #888",
+                borderRadius: "4px",
+                marginRight: "8px",
+                overflow: "hidden",
+                boxShadow: "1px 1px 0 #888",
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  width: `${Math.min(stat.base_stat, 160)}px`,
+                  background: "#66c",
+                  imageRendering: "pixelated",
+                }}
+              />
+            </div>
+            <span style={{ minWidth: "32px", textAlign: "right" }}>
+              {stat.base_stat}
+            </span>
           </li>
         ))}
       </ul>
