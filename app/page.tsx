@@ -18,7 +18,8 @@ export default function Home() {
         const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
         if (!res.ok) throw new Error("API fetch failed");
         const data = await res.json();
-        const list = data.results.map((pokemon, index) => ({
+        const results = data.results as { name: string }[];
+        const list = results.map((pokemon, index) => ({
           id: index + 1,
           name: pokemon.name,
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
