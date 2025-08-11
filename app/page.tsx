@@ -117,52 +117,64 @@ export default function Home() {
       </div>
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
-          gap: "10px",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        {filtered.map((pokemon) => (
-          <a
-            key={pokemon.id}
-            href={`/pokemon/${pokemon.id}`}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "10px",
-              textAlign: "center",
-              textDecoration: "none",
-              color: "black",
-            }}
-          >
-            <img
-              src={pokemon.image}
-              alt={pokemon.name}
-              width={96}
-              height={96}
-              style={{ imageRendering: "pixelated" }}
-            />
-            <p>{pokemon.name}</p>
-            <div>
-              {pokemon.types.map((type) => (
-                <span
-                  key={type}
-                  style={{
-                    fontSize: "10px",
-                    background: "#ffe",
-                    border: "1px solid #888",
-                    borderRadius: "4px",
-                    margin: "2px",
-                    padding: "2px 6px",
-                    display: "inline-block",
-                  }}
-                >
-                  {typeJa[type] ?? type}
-                </span>
-              ))}
-            </div>
-          </a>
-        ))}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+            gap: "10px",
+            maxWidth: "900px",
+            width: "100%",
+          }}
+        >
+          {filtered.map((pokemon) => (
+            <a
+              key={pokemon.id}
+              href={`/pokemon/${pokemon.id}`}
+              style={{
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                padding: "10px",
+                textAlign: "center",
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center", // 画像・テキストを中央揃え
+              }}
+            >
+              <img
+                src={pokemon.image}
+                alt={pokemon.name}
+                width={96}
+                height={96}
+                style={{ imageRendering: "pixelated", marginBottom: "8px" }}
+              />
+              <p style={{ margin: 0 }}>{pokemon.name}</p>
+              <div>
+                {pokemon.types.map((type) => (
+                  <span
+                    key={type}
+                    style={{
+                      fontSize: "10px",
+                      background: "#ffe",
+                      border: "1px solid #888",
+                      borderRadius: "4px",
+                      margin: "2px",
+                      padding: "2px 6px",
+                      display: "inline-block",
+                    }}
+                  >
+                    {typeJa[type] ?? type}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
