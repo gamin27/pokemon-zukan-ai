@@ -2,8 +2,14 @@
 
 import { useState, useEffect } from "react";
 
+type Pokemon = {
+  id: number;
+  name: string;
+  image: string;
+};
+
 export default function Home() {
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
