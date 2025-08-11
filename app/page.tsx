@@ -19,13 +19,15 @@ export default function Home() {
         if (!res.ok) throw new Error("API fetch failed");
         const data: { results?: { name: string }[] } = await res.json();
         const results = Array.isArray(data.results) ? data.results : [];
-        const list: Pokemon[] = results.map((pokemon, index) => ({
-          id: index + 1,
-          name: pokemon.name,
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-            index + 1
-          }.png`,
-        }));
+        const list: Pokemon[] = results.map(
+          (pokemon: { name: string }, index: number) => ({
+            id: index + 1,
+            name: pokemon.name,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+              index + 1
+            }.png`,
+          })
+        );
         setPokemons(list);
       } catch (error) {
         console.error(error);
