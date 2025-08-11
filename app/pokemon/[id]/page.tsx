@@ -15,6 +15,28 @@ export default async function PokemonDetail(props: any) {
   );
   const jpName = jpNameObj ? jpNameObj.name : pokemon.name;
 
+  // 英語→日本語タイプ変換テーブル
+  const typeJa: { [key: string]: string } = {
+    normal: "ノーマル",
+    fire: "ほのお",
+    water: "みず",
+    electric: "でんき",
+    grass: "くさ",
+    ice: "こおり",
+    fighting: "かくとう",
+    poison: "どく",
+    ground: "じめん",
+    flying: "ひこう",
+    psychic: "エスパー",
+    bug: "むし",
+    rock: "いわ",
+    ghost: "ゴースト",
+    dragon: "ドラゴン",
+    dark: "あく",
+    steel: "はがね",
+    fairy: "フェアリー",
+  };
+
   return (
     <div
       style={{
@@ -96,7 +118,7 @@ export default async function PokemonDetail(props: any) {
               boxShadow: "1px 1px 0 #888",
             }}
           >
-            {t.type.name}
+            {typeJa[t.type.name] ?? t.type.name}
           </li>
         ))}
       </ul>
